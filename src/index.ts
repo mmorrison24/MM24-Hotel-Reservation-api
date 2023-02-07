@@ -1,6 +1,5 @@
 import * as dotenv from "dotenv";
-import express from "express";
-import cors from "cors";
+import createServer from "./utils/server";
 
 
 dotenv.config();
@@ -11,11 +10,7 @@ if (!process.env.PORT) {
 }
 
 const PORT: number = parseInt(process.env.PORT as string, 10);
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
+const app = createServer()
 
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
