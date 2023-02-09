@@ -3,7 +3,6 @@ import createServer from "./utils/server";
 
 
 dotenv.config();
-console.log('test')
 if (!process.env.PORT) {
     console.log('set PORT setting in .env file')
     process.exit(1);
