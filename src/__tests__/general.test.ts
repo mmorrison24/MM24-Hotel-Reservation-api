@@ -7,3 +7,4 @@ describe('general app', () => {
         await supertest(app).get('/api').expect(404)
     })
 })
+

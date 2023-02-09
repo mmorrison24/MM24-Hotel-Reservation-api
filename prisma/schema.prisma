@@ -26,7 +26,7 @@ model Reservation {
   arrival       DateTime
   departure     DateTime
   stayAmount    Int
-  isActive      Boolean
+  isActive      Boolean?
   guest         Guest     @relation(fields: [guestId], references: [id], onDelete: Cascade)
   guestId       String    @db.ObjectId
 }

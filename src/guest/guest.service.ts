@@ -7,4 +7,17 @@ export async function getGuest(): Promise<Array<Guest>> {
 
 };
 
+export const createGuest = async (
+    guest: Omit<Guest, "id"|"createdAt">
+): Promise<Omit<Guest, "id"|"createdAt"|"updatedAt">> => {
+    const { name } = guest;
 
+    return prismaClient.guest.create({
+        data: {
+            name,
+        },
+        select: {
+            name: true,
+        },
+    });
+};
