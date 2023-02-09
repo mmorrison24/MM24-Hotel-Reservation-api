@@ -9,3 +9,24 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model Guest {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  name        String
+  reservation Reservation[]
+}
+
+model Reservation {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  hotel         String
+  arrival       DateTime
+  departure     DateTime
+  stayAmount    Int
+  isActive      Boolean
+  guest         Guest     @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  guestId       String    @db.ObjectId
+}
