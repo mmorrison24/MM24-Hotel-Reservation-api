@@ -1,11 +1,11 @@
 import express, {Request, Response} from "express";
 
 import * as ReservationService from "./reservation.service"
-import {body, validationResult} from "express-validator";
-import * as GuestService from "../guest/guest.service";
+import {body, check, validationResult} from "express-validator";
 
 export const reservationRouter = express.Router()
 
+// GET: All Reservations
 reservationRouter.get("/", async (request, response) => {
     try {
         const reservations = await ReservationService.getReservations()
@@ -15,8 +15,8 @@ reservationRouter.get("/", async (request, response) => {
     }
 })
 
+// POST: Reservation by ID
 reservationRouter.get('/:id', async (request, response) => {
-    console.log('test')
     const id = request.params.id;
     try {
         const reservation = await ReservationService.getReservation(id)
@@ -27,7 +27,6 @@ reservationRouter.get('/:id', async (request, response) => {
 })
 
 // POST: Create a Reservation
-// Params: name
 reservationRouter.post(
     "/",
     [
@@ -48,12 +47,7 @@ reservationRouter.post(
             }
             return resp.status(400).json({ errors: errors.array() });
         }
-        // check if guestid or guestname is present
-        if (req.body.guestid) {
-            // handle creating reservation using guestid
-        } else if (req.body.guestname) {
-            // handle creating reservation using guestname
-        }
+
         try {
             const reservation = req.body;
             const reservationNew = await ReservationService.createReservation(reservation);
@@ -64,3 +58,26 @@ reservationRouter.post(
     }
 );
 
+// PATCH: Cancelling a reservation
+reservationRouter.patch('/cancel', [
+    check('id').isMongoId().withMessage("id Is invalid"),
+    async (req, resp) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return resp.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            const reservationId = req.query.id;
+            const reservationCanceled = await ReservationService.cancelReservation(reservationId);
+
+            if(!reservationCanceled)
+                return resp.status(404).json({ msg: 'Reservation not found' });
+            return resp.status(200).json({ msg: 'Reservation cancelled successfully', reservation: reservationCanceled });
+
+        } catch (error: any) {
+            return resp.status(500).json(error.message);
+        }
+
+    }
+]);

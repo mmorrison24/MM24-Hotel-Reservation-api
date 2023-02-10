@@ -1,5 +1,5 @@
 import {prismaClient} from "../utils/db.singleton";
-import {Guest, Reservation} from "@prisma/client";
+import {Reservation} from "@prisma/client";
 
 interface ReservationInput {
     hotel?: string;
@@ -57,5 +57,15 @@ export const createReservation = async (
             isActive: true,
             guest: guestConfigObj
         }
+    });
+};
+
+export const cancelReservation = async (
+    reservationId: string
+): Promise<ReservationInput> => {
+
+    return prismaClient.reservation.update({
+        where: { id: reservationId },
+        data: { isActive: false }
     });
 };
