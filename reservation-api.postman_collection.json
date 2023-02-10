@@ -1,0 +1,246 @@
+{
+	"info": {
+		"_postman_id": "d0a53420-663f-44d2-ab63-48c95d48f44e",
+		"name": "reservation-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8543393"
+	},
+	"item": [
+		{
+			"name": "getAllGuests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/guests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getGuestSummary [byId]",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/guests/63e45a6ea7b1372d00dbda51",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"guests",
+						"63e45a6ea7b1372d00dbda51"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post Guests - create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    name:\"test name\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/guests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllReservations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/guests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllReservationbyID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/guests",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "searchReservation [byDate]",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"arrival\": \"1922-02-02\"\n\n \"departure\": \"1922-02-06\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/reservations/63e45a6ea7b1372d00dbda53",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"reservations",
+						"63e45a6ea7b1372d00dbda53"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create Reservation and Create Guest by Name",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hotel\": \"hotel name2\",\n    \"arrival\": \"2023-02-12T00:00:00.000Z\",\n    \"departure\": \"2023-02-24T00:00:00.000Z\",\n    \"stayAmount\": 20000,\n        \"guestName\": \"testguy\"\n\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "hotel",
+							"value": "test",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create Reservations by ID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hotel\": \"hotel name\",\n    \"arrival\": \"2023-02-12T00:00:00.000Z\",\n    \"departure\": \"2023-02-24T00:00:00.000Z\",\n    \"stayAmount\": 20000,\n        \"guestId\": \"63e45a6ea7b1372d00dbda51\"\n\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/reservations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"reservations"
+					],
+					"query": [
+						{
+							"key": "hotel",
+							"value": "test",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel Reservation by ID",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/cancel?id=63e5d1d4276b857316fa484b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"cancel"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "63e5d1d4276b857316fa484b"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
