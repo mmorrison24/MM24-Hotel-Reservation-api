@@ -35,15 +35,27 @@ reservationRouter.post(
         body("arrival").not().isEmpty().withMessage("Arrival date is required"),
         body("departure").not().isEmpty().withMessage("Departure date is required"),
         body("stayAmount").not().isEmpty().withMessage("Stay amount is required"),
-        body("guestId").isString().withMessage("Guest id is required"),
+        body('guestId').optional(),
+        body('guestName').optional(),
     ],
-    async (res: Request, resp: Response) => {
-        const errors = validationResult(res);
-        if (!errors.isEmpty()) {
+    async (req: Request, resp: Response) => {
+        const errors = validationResult(req);
+        const haveGuest = !!req.body.guestId || !!req.body.guestName;
+
+        if (!errors.isEmpty() || !haveGuest) {
+            if(!haveGuest){
+                return resp.status(400).json({ errors: [{ msg: 'Please provide either guestid or guestname' }] });
+            }
             return resp.status(400).json({ errors: errors.array() });
         }
+        // check if guestid or guestname is present
+        if (req.body.guestid) {
+            // handle creating reservation using guestid
+        } else if (req.body.guestname) {
+            // handle creating reservation using guestname
+        }
         try {
-            const reservation = res.body;
+            const reservation = req.body;
             const reservationNew = await ReservationService.createReservation(reservation);
             return resp.status(201).json(reservationNew);
         } catch (error: any) {
@@ -51,3 +63,4 @@ reservationRouter.post(
         }
     }
 );
+

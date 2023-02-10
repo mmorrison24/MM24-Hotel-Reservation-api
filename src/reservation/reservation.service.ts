@@ -8,6 +8,7 @@ interface ReservationInput {
     stayAmount?: number;
     isActive?: boolean;
     guestId?: string;
+    guestName?: string;
 }
 
 export async function getReservations(): Promise<Array<Reservation>> {
@@ -28,7 +29,23 @@ export function getReservation(id: string): Promise<Reservation | null> {
 export const createReservation = async (
     reservation: ReservationInput
 ): Promise<ReservationInput> => {
-    const {hotel, arrival, departure, stayAmount, guestId} = reservation;
+    const {hotel, arrival, departure, stayAmount, guestId, guestName} = reservation;
+    let guestConfigObj;
+
+    if (guestId) {
+        guestConfigObj = {
+            connect: {
+                id: guestId
+            },
+        }
+    }
+    if (guestName){
+        guestConfigObj = {
+            create: {
+                name: guestName
+            }
+        }
+    }
 
     // @ts-ignore
     return prismaClient.reservation.create({
@@ -38,11 +55,7 @@ export const createReservation = async (
             departure,
             stayAmount,
             isActive: true,
-            guest: {
-                connect: {
-                    id: guestId
-                }
-            }
+            guest: guestConfigObj
         }
     });
 };
