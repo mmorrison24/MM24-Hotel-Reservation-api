@@ -6,31 +6,46 @@ import * as GuestService from "./guest.service"
 
 export const guestRouter = express.Router()
 
-guestRouter.get("/", async (request, response) => {
+// GET: All Guest
+guestRouter.get("/", async (req, resp) => {
     try {
-        const guests = await GuestService.getGuest()
-        return response.status(200).json(guests)
+        const guests = await GuestService.getGuests()
+        return resp.status(200).json(guests)
     } catch (error){
-        return response.status(500).json(error.message)
+        return resp.status(500).json(error.message)
     }
 })
 
+// GET: Guest by id
+guestRouter.get("/:guestId", async (req, resp) => {
+    try {
+        const guest = await GuestService.getGuest(req.params.guestId)
+        if(!guest)
+            return resp.status(404).json({ msg: 'Guest not found' });
+
+        const staySummary = await GuestService.staySummary(guest)
+        return resp.status(200).json(staySummary)
+    } catch (error){
+        return resp.status(500).json(error.message)
+    }
+})
+
+
 // POST: Create a Guest
-// Params: name
 guestRouter.post(
     "/",
     body("name").isString(),
-    async (request: Request, response: Response) => {
-        const errors = validationResult(request);
+    async (req: Request, resp: Response) => {
+        const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return response.status(400).json({ errors: errors.array() });
+            return resp.status(400).json({ errors: errors.array() });
         }
         try {
-            const guest = request.body;
+            const guest = req.body;
             const guestNew = await GuestService.createGuest(guest);
-            return response.status(201).json(guestNew);
+            return resp.status(201).json(guestNew);
         } catch (error: any) {
-            return response.status(500).json(error.message);
+            return resp.status(500).json(error.message);
         }
     }
 );
