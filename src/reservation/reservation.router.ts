@@ -81,3 +81,24 @@ reservationRouter.patch('/cancel', [
 
     }
 ]);
+
+reservationRouter.get('/search', [
+    check('startDate').isISO8601(),
+    check('endDate').isISO8601(),
+    async (req, resp) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return resp.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            const { startDate, endDate } = req.query;
+            const reservations = await ReservationService.searchReservation(startDate, endDate );
+
+            resp.json({ reservations });
+        } catch (err) {
+            console.error(err.message);
+            resp.status(500).send('Server Error');
+        }
+    }
+]);

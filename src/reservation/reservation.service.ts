@@ -69,3 +69,17 @@ export const cancelReservation = async (
         data: { isActive: false }
     });
 };
+
+export const searchReservation = async (
+    startDate, endDate
+) : Promise<Array<Reservation>> => {
+
+    return prismaClient.reservation.findMany({
+        where: {
+            AND: [
+                { arrival: { gte: new Date(startDate) } },
+                { departure: { lte: new Date(endDate) } }
+            ]
+        }
+    });
+};
