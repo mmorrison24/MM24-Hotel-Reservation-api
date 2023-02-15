@@ -25,7 +25,7 @@ function calculateStayStatistics(stays: Array<Reservation>) {
     const totalCancelledStayAmount = cancelledStays.reduce((sum, stay) => sum + stay.stayAmount, 0);
 
     // @ts-ignore
-    const totalNightInPastStays = pastStays.reduce((sum, stay) => sum + (stay.departure - stay.arrival) / (1000 * 60 * 60 * 24), 0)
+    const totalNightsInPastStays = pastStays.reduce((sum, stay) => sum + (stay.departure - stay.arrival) / (1000 * 60 * 60 * 24), 0)
     // @ts-ignore
     const totalNightsInUpcomingStays = upcomingStays.reduce((sum, stay) => sum + (stay.departure - stay.arrival) / (1000 * 60 * 60 * 24), 0)
 
@@ -37,7 +37,7 @@ function calculateStayStatistics(stays: Array<Reservation>) {
         totalUpcomingStayAmount,
         totalPastStayAmount,
         totalCancelledStayAmount,
-        totalNightInPastStays,
+        totalNightsInPastStays,
         totalNightsInUpcomingStays
     };
 }
@@ -57,7 +57,7 @@ export async function staySummary(guest: Guest): Promise<any> {
         totalUpcomingStayAmount,
         totalPastStayAmount,
         totalCancelledStayAmount,
-        totalNightInPastStays,
+        totalNightsInPastStays,
         totalNightsInUpcomingStays
     } = calculateStayStatistics(stays);
 
